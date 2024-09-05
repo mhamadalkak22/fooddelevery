@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('total_price', 8, 2);
-            $table->string('status')->default('pending'); // e.g., pending, completed
-            $table->string('payment_method')->default('cash_on_delivery'); // Payment method
+            $table->string('status')->default('pending');
+            $table->string('payment_method')->default('cash_on_delivery'); 
             $table->text('delivery_address');
+            $table->decimal('total_price', 10, 2);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_items');
+        Schema::dropIfExists('order');
     }
 };

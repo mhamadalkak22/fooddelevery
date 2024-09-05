@@ -15,6 +15,7 @@ class FoodItem extends Model
         'category_id',
         'user_id',
         'is_available',
+        'photo'
     ];
  
 
@@ -28,14 +29,15 @@ class FoodItem extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function orders()
+    public function orderItems()
     {
-        return $this->belongsToMany(Order::class)
-                    ->withTimestamps();  // Adds created_at and updated_at timestamps
+        return $this->hasMany(OrderItem::class);
     }
+     
+    public function favoritedBy()
+{
+    return $this->hasMany(Favorite::class);
+}
 
-    public function cartItems()
-    {
-        return $this->hasMany(CartItem::class);
-    }
+    
 }

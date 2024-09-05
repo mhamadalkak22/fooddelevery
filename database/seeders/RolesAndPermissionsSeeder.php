@@ -20,15 +20,17 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'manage food items']);
         Permission::create(['name' => 'view food items']);
         Permission::create(['name' => 'place orders']);
+        Permission::create(['name' => 'manage categories']);
+        Permission::create(['name' => 'view categories']);  
 
-        // Create roles and assign existing permissions
+    
         $adminRole = Role::create(['name' => 'admin']);
         $chefRole = Role::create(['name' => 'chef']);
         $userRole = Role::create(['name' => 'user']);
 
-        $adminRole->givePermissionTo(['manage users', 'manage roles', 'manage food items', 'view food items', 'place orders']);
+        $adminRole->givePermissionTo(['manage users', 'manage roles', 'manage food items', 'view food items', 'place orders','manage categories','view categories' ]);
         $chefRole->givePermissionTo(['manage food items', 'view food items', 'place orders']);
-        $userRole->givePermissionTo(['view food items', 'place orders']);
+        $userRole->givePermissionTo(['view food items', 'place orders', 'view categories' ]);
 
         // Create an admin user
         $admin = User::create([

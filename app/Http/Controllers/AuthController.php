@@ -17,6 +17,7 @@ class AuthController extends Controller
             'address' => $request->address,  
             'phone_number' => $request->phone_number,  
         ]);
+        $user->assignRole($request->role);
 
         return response()->json(['message' => 'User registered successfully'], 201);
     }
@@ -61,4 +62,32 @@ class AuthController extends Controller
     {
         return response()->json($request->user());
     }
+
+    public function update(Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $request->user()->id,
+            'password' => 'sometimes|string|min:8|confirmed',
+            'address' => 'sometimes|string|max:255',
+            'phone_number' => 'sometimes|string|max:15',
+        ]);
+
+      
+        $user = $request->user();
+
+      
+        $user->fill($request->only(['name', 'email', 'address', 'phone_number']));
+
+       
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return response()->json(['message' => 'Profile updated successfully']);
+    }
+
 }

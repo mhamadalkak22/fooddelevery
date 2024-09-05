@@ -48,10 +48,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
-    public function cart()
+    public function favoriteFoodItems()
+   {
+    return $this->belongsToMany(FoodItem::class, 'favorites');
+   }
+    public function favorites()
     {
-        return $this->hasOne(Cart::class);
-    }
+       return $this->hasMany(Favorite::class);
+   }
+
+
 
     /**
      * The attributes that should be cast.
